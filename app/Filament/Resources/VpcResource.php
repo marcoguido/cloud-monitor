@@ -81,11 +81,50 @@ class VpcResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('cluster.name'),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('public_ip')
+                    ->label('Public IP')
+                    ->copyable(),
+                Tables\Columns\TextColumn::make('operating_system')
+                    ->formatStateUsing(
+                        fn (Vpc $record) => "{$record->operating_system->description()} $record->operating_system_release"
+                    )
+                    ->badge(),
+                Tables\Columns\SpatieTagsColumn::make('tags')
+                    ->type('vpc_tags'),
+                Tables\Columns\IconColumn::make('is_ssh_enabled')
+                    ->label('SSH allowed?')
+                    ->boolean()
+                    ->alignCenter(),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('management_url')
+                    ->label('VPS Manager')
+                    ->hidden(
+                        fn (Vpc $record): bool => empty($record->management_url)
+                    )
+                    ->url(
+                        url: fn (Vpc $record): string => $record->management_url,
+                        shouldOpenInNewTab: true,
+                    )
+                    ->icon('heroicon-o-wrench-screwdriver'),
+                Tables\Actions\Action::make('password_manager_credentials_url')
+                    ->label('VPC Credentials')
+                    ->hidden(
+                        fn (Vpc $record): bool => empty($record->password_manager_credentials_url)
+                    )
+                    ->url(
+                        url: fn (Vpc $record): string => $record->password_manager_credentials_url,
+                        shouldOpenInNewTab: true,
+                    )
+                    ->icon('heroicon-o-key'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
                 ]),
             ])
             ->bulkActions([

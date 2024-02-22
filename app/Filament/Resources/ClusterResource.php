@@ -46,11 +46,27 @@ class ClusterResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('provider.name'),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('management_url')
+                    ->label('Cluster manager')
+                    ->hidden(
+                        fn (Cluster $record): bool => empty($record->management_url)
+                    )
+                    ->url(
+                        url: fn (Cluster $record): string => $record->management_url,
+                        shouldOpenInNewTab: true,
+                    )
+                    ->icon('heroicon-o-wrench-screwdriver'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

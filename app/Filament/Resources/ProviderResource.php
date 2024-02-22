@@ -42,13 +42,61 @@ class ProviderResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('backoffice_url')
+                    ->label('Backoffice access')
+                    ->hidden(
+                        fn (Provider $record): bool => empty($record->backoffice_url)
+                    )
+                    ->url(
+                        url: fn (Provider $record): string => $record->backoffice_url,
+                        shouldOpenInNewTab: true,
+                    )
+                    ->icon('heroicon-o-adjustments-horizontal'),
+                Tables\Actions\Action::make('ticketing_url')
+                    ->label('Ticketing')
+                    ->hidden(
+                        fn (Provider $record): bool => empty($record->ticketing_url)
+                    )
+                    ->url(
+                        url: fn (Provider $record): string => $record->ticketing_url,
+                        shouldOpenInNewTab: true,
+                    )
+                    ->icon('heroicon-o-ticket'),
+                Tables\Actions\Action::make('domain_management_url')
+                    ->label('DNS/Domain Management')
+                    ->hidden(
+                        fn (Provider $record): bool => empty($record->domain_management_url)
+                    )
+                    ->url(
+                        url: fn (Provider $record): string => $record->domain_management_url,
+                        shouldOpenInNewTab: true,
+                    )
+                    ->icon('heroicon-o-globe-alt'),
+                Tables\Actions\Action::make('url')
+                    ->label('Official site')
+                    ->hidden(
+                        fn (Provider $record): bool => empty($record->url)
+                    )
+                    ->url(
+                        url: fn (Provider $record): string => $record->url,
+                        shouldOpenInNewTab: true,
+                    )
+                    ->icon('heroicon-o-link'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

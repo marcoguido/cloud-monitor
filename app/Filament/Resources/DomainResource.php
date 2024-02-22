@@ -79,6 +79,30 @@ class DomainResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('domain_type')
+                    ->formatStateUsing(
+                        fn (Domain $record) => $record->domain_type->description()
+                    )
+                    ->badge(),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('url')
+                    ->url(
+                        url: fn (Domain $record) => $record->url,
+                        shouldOpenInNewTab: true,
+                    ),
+                Tables\Columns\TextColumn::make('application_type')
+                    ->formatStateUsing(
+                        fn (Domain $record) => $record->application_type->description()
+                    )
+                    ->badge(),
+                Tables\Columns\SpatieTagsColumn::make('application_environment')
+                    ->type('application_environments'),
+                Tables\Columns\TextColumn::make('provider.name')
+                    ->label('DNS Provider')
+                    ->url(
+                        url: fn (Domain $record) => $record->provider->domain_management_url,
+                        shouldOpenInNewTab: true,
+                    ),
             ])
             ->filters([
                 //
