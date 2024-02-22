@@ -29,6 +29,6 @@ return [
             DomainType::REDIRECT->name => 'Redirect',
             DomainType::WEBSITE->name => 'Website',
             DomainType::SERVICE->name => 'Exposed system service',
-        ]
+        ],
     ],
 ];

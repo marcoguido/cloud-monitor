@@ -5,10 +5,7 @@ namespace App\Filament\Resources;
 use App\Enum\ApplicationType;
 use App\Enum\DomainType;
 use App\Filament\Resources\DomainResource\Pages;
-use App\Filament\Resources\DomainResource\RelationManagers;
 use App\Models\Domain;
-use App\Models\Provider;
-use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Components\Textarea;
@@ -17,14 +14,15 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DomainResource extends Resource
 {
     protected static ?string $model = Domain::class;
+
     protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?string $navigationIcon = 'heroicon-o-globe-europe-africa';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
@@ -81,7 +79,7 @@ class DomainResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('domain_type')
                     ->formatStateUsing(
-                        fn (Domain $record) => $record->domain_type->description()
+                        fn (Domain $record) => $record->domain_type->description(),
                     )
                     ->badge(),
                 Tables\Columns\TextColumn::make('name'),
@@ -92,7 +90,7 @@ class DomainResource extends Resource
                     ),
                 Tables\Columns\TextColumn::make('application_type')
                     ->formatStateUsing(
-                        fn (Domain $record) => $record->application_type->description()
+                        fn (Domain $record) => $record->application_type->description(),
                     )
                     ->badge(),
                 Tables\Columns\SpatieTagsColumn::make('application_environment')

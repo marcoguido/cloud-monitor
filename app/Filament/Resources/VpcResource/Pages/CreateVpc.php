@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\VpcResource\Pages;
 
 use App\Filament\Resources\VpcResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateVpc extends CreateRecord

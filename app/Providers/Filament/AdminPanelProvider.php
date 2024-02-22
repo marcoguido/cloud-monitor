@@ -71,7 +71,7 @@ class AdminPanelProvider extends PanelProvider
                     ->setRegistrationEnabled(true)
                     ->setDomainAllowList(
                         config('auth.allowed_domains'),
-                    )
+                    ),
             );
     }
 }

@@ -33,6 +33,6 @@ return [
              * Optional. Path to the php binary on your remote server.
              */
             'phpPath' => env('REMOTE_PHP_PATH', 'php'),
-        ]
+        ],
     ],
 ];

@@ -24,11 +24,11 @@ class SsoFilamentProvider extends ServiceProvider
     public function boot(): void
     {
         FilamentSocialiteFacade::class::setCreateUserCallback(
-            fn(SocialiteUserContract $oauthUser, FilamentSocialite $socialite) => $socialite->getUserModelClass()::create([
+            fn (SocialiteUserContract $oauthUser, FilamentSocialite $socialite) => $socialite->getUserModelClass()::create([
                 'name' => $oauthUser->getNickname(),
                 'email' => $oauthUser->getEmail(),
                 'email_verified_at' => Carbon::now(),
-            ])
+            ]),
         );
     }
 }

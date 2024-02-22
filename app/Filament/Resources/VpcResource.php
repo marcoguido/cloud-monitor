@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Enum\OperatingSystem;
 use App\Filament\Resources\VpcResource\Pages;
-use App\Filament\Resources\VpcResource\RelationManagers;
 use App\Models\Vpc;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieTagsInput;
@@ -19,9 +18,13 @@ use Filament\Tables\Table;
 class VpcResource extends Resource
 {
     protected static ?string $model = Vpc::class;
+
     protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?string $modelLabel = 'VPC';
+
     protected static ?string $navigationIcon = 'heroicon-o-server-stack';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -68,7 +71,7 @@ class VpcResource extends Resource
                 TextInput::make('password_manager_credentials_url')
                     ->columnSpanFull()
                     ->helperText(
-                        Markdown::inline('The url to the credentials mapped in [Passbolt](https://passbolt.eegatech.it)')
+                        Markdown::inline('The url to the credentials mapped in [Passbolt](https://passbolt.eegatech.it)'),
                     )
                     ->url(),
                 SpatieTagsInput::make('tags')
@@ -88,7 +91,7 @@ class VpcResource extends Resource
                     ->copyable(),
                 Tables\Columns\TextColumn::make('operating_system')
                     ->formatStateUsing(
-                        fn (Vpc $record) => "{$record->operating_system->description()} $record->operating_system_release"
+                        fn (Vpc $record) => "{$record->operating_system->description()} $record->operating_system_release",
                     )
                     ->badge(),
                 Tables\Columns\SpatieTagsColumn::make('tags')
@@ -105,7 +108,7 @@ class VpcResource extends Resource
                 Tables\Actions\Action::make('management_url')
                     ->label('VPS Manager')
                     ->hidden(
-                        fn (Vpc $record): bool => empty($record->management_url)
+                        fn (Vpc $record): bool => empty($record->management_url),
                     )
                     ->url(
                         url: fn (Vpc $record): string => $record->management_url,
@@ -115,7 +118,7 @@ class VpcResource extends Resource
                 Tables\Actions\Action::make('password_manager_credentials_url')
                     ->label('VPC Credentials')
                     ->hidden(
-                        fn (Vpc $record): bool => empty($record->password_manager_credentials_url)
+                        fn (Vpc $record): bool => empty($record->password_manager_credentials_url),
                     )
                     ->url(
                         url: fn (Vpc $record): string => $record->password_manager_credentials_url,

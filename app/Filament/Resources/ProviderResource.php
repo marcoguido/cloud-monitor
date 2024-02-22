@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProviderResource\Pages;
-use App\Filament\Resources\ProviderResource\RelationManagers;
 use App\Models\Provider;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -14,8 +13,11 @@ use Filament\Tables\Table;
 class ProviderResource extends Resource
 {
     protected static ?string $model = Provider::class;
+
     protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?int $navigationSort = 0;
+
     protected static ?string $navigationIcon = 'heroicon-o-wifi';
 
     public static function form(Form $form): Form
@@ -51,7 +53,7 @@ class ProviderResource extends Resource
                 Tables\Actions\Action::make('backoffice_url')
                     ->label('Backoffice access')
                     ->hidden(
-                        fn (Provider $record): bool => empty($record->backoffice_url)
+                        fn (Provider $record): bool => empty($record->backoffice_url),
                     )
                     ->url(
                         url: fn (Provider $record): string => $record->backoffice_url,
@@ -61,7 +63,7 @@ class ProviderResource extends Resource
                 Tables\Actions\Action::make('ticketing_url')
                     ->label('Ticketing')
                     ->hidden(
-                        fn (Provider $record): bool => empty($record->ticketing_url)
+                        fn (Provider $record): bool => empty($record->ticketing_url),
                     )
                     ->url(
                         url: fn (Provider $record): string => $record->ticketing_url,
@@ -71,7 +73,7 @@ class ProviderResource extends Resource
                 Tables\Actions\Action::make('domain_management_url')
                     ->label('DNS/Domain Management')
                     ->hidden(
-                        fn (Provider $record): bool => empty($record->domain_management_url)
+                        fn (Provider $record): bool => empty($record->domain_management_url),
                     )
                     ->url(
                         url: fn (Provider $record): string => $record->domain_management_url,
@@ -81,7 +83,7 @@ class ProviderResource extends Resource
                 Tables\Actions\Action::make('url')
                     ->label('Official site')
                     ->hidden(
-                        fn (Provider $record): bool => empty($record->url)
+                        fn (Provider $record): bool => empty($record->url),
                     )
                     ->url(
                         url: fn (Provider $record): string => $record->url,

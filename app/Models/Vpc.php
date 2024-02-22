@@ -25,6 +25,7 @@ use Spatie\Tags\HasTags;
  * @property int $cluster_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc query()
@@ -42,14 +43,17 @@ use Spatie\Tags\HasTags;
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc wherePublicIp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc whereSshPort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc whereUpdatedAt($value)
+ *
  * @property-read \App\Models\Cluster $cluster
  * @property \Illuminate\Database\Eloquent\Collection<int, \Spatie\Tags\Tag> $tags
  * @property-read int|null $tags_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc withAnyTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Vpc withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ *
  * @mixin \Eloquent
  */
 class Vpc extends Model

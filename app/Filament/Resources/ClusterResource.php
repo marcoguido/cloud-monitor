@@ -3,24 +3,22 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ClusterResource\Pages;
-use App\Filament\Resources\ClusterResource\RelationManagers;
 use App\Models\Cluster;
-use App\Models\Provider;
-use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ClusterResource extends Resource
 {
     protected static ?string $model = Cluster::class;
+
     protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -56,7 +54,7 @@ class ClusterResource extends Resource
                 Tables\Actions\Action::make('management_url')
                     ->label('Cluster manager')
                     ->hidden(
-                        fn (Cluster $record): bool => empty($record->management_url)
+                        fn (Cluster $record): bool => empty($record->management_url),
                     )
                     ->url(
                         url: fn (Cluster $record): string => $record->management_url,

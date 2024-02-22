@@ -25,6 +25,7 @@ use Spatie\Tags\HasTags;
  * @property int $dns_provider_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Domain newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Domain newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Domain query()
@@ -40,15 +41,18 @@ use Spatie\Tags\HasTags;
  * @method static \Illuminate\Database\Eloquent\Builder|Domain whereRemoteSystemUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Domain whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Domain whereUrl($value)
+ *
  * @property-read \App\Models\Provider $provider
  * @property \Illuminate\Database\Eloquent\Collection<int, \Spatie\Tags\Tag> $tags
  * @property-read int|null $tags_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Domain whereSshPrivateKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Domain withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Domain withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Domain withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Domain withAnyTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Domain withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ *
  * @mixin \Eloquent
  */
 class Domain extends Model
