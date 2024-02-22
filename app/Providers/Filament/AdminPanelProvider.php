@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -55,6 +56,22 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugin(
+                FilamentSocialitePlugin::make()
+                    ->setProviders([
+                        'auth0' => [
+                            'label' => 'Auth0',
+                            // Custom icon requires an additional package, see below.
+                            'icon' => 'heroicon-o-star',
+                            // (optional) Button color override, default: 'gray'.
+                            'color' => 'primary',
+                            // (optional) Button style override, default: true (outlined).
+                            'outlined' => false,
+                        ],
+                    ])
+                    ->setRegistrationEnabled(true)
+                    ->setDomainAllowList(
+                        config('auth.allowed_domains'),
+                    )
             );
     }
 }
