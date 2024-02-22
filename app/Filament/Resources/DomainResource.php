@@ -31,6 +31,47 @@ class DomainResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('domain_type')
+                    ->options(DomainType::descriptionsByValue())
+                    ->default(DomainType::WEBSITE)
+                    ->required(),
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('url')
+                    ->columnSpanFull()
+                    ->required()
+                    ->url(),
+                Textarea::make('description')
+                    ->columnSpanFull(),
+                Select::make('application_type')
+                    ->options(ApplicationType::descriptionsByValue())
+                    ->nullable(),
+                SpatieTagsInput::make('application_environment')
+                    ->type('application_environments')
+                    ->nullable(),
+                TextInput::make('remote_system_user')
+                    ->columnSpanFull()
+                    ->nullable()
+                    ->maxLength(255),
+                TextInput::make('remote_path')
+                    ->nullable()
+                    ->helperText('The path to the directory being served in remote server for this domain'),
+                TextInput::make('remote_php_path')
+                    ->nullable()
+                    ->helperText('The path to the PHP executable running the application (if any)'),
+                Textarea::make('ssh_private_key')
+                    ->columnSpanFull()
+                    ->nullable()
+                    ->placeholder('May start with -----BEGIN OPENSSH PRIVATE KEY-----')
+                    ->helperText('The private key (without any passphrase) to be used to connect to remote server'),
+                Select::make('dns_provider_id')
+                    ->label('DNS Provider')
+                    ->relationship(name: 'provider', titleAttribute: 'name')
+                    ->searchable()
+                    ->preload()
+                    ->helperText('Which provider holds DNS configuration for the site')
+                    ->required(),
             ]);
     }
 

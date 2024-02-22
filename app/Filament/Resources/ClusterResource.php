@@ -27,6 +27,18 @@ class ClusterResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('name')
+                    ->columnSpanFull()
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('management_url')
+                    ->columnSpanFull()
+                    ->url(),
+                Select::make('provider_id')
+                    ->relationship(name: 'provider', titleAttribute: 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
             ]);
     }
 

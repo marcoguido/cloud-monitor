@@ -20,6 +20,22 @@ class ProviderResource extends Resource
 
     public static function form(Form $form): Form
     {
+        return $form
+            ->schema([
+                TextInput::make('name')
+                    ->columnSpanFull()
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('url')
+                    ->required()
+                    ->url(),
+                TextInput::make('backoffice_url')
+                    ->url(),
+                TextInput::make('ticketing_url')
+                    ->url(),
+                TextInput::make('domain_management_url')
+                    ->url(),
+            ]);
     }
 
     public static function table(Table $table): Table

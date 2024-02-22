@@ -28,6 +28,52 @@ class VpcResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('cluster_id')
+                    ->columnSpanFull()
+                    ->relationship(name: 'cluster', titleAttribute: 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+                TextInput::make('name')
+                    ->columnSpanFull()
+                    ->required()
+                    ->maxLength(255),
+                Select::make('operating_system')
+                    ->required()
+                    ->options(OperatingSystem::descriptionsByValue()),
+                TextInput::make('operating_system_release')
+                    ->label('OS Version')
+                    ->required(),
+                TextInput::make('hostname')
+                    ->columnSpanFull()
+                    ->required(),
+                TextInput::make('public_ip')
+                    ->required()
+                    ->ip(),
+                TextInput::make('private_ip')
+                    ->ip(),
+                Toggle::make('is_ssh_enabled')
+                    ->label('SSH Allowed?')
+                    ->required()
+                    ->default(true),
+                TextInput::make('ssh_port')
+                    ->numeric()
+                    ->minValue(0)
+                    ->default(22)
+                    ->requiredIf('is_ssh_enabled', true),
+                TextInput::make('management_url')
+                    ->columnSpanFull()
+                    ->helperText('Plesk, cPanel or Webmin url (if any)')
+                    ->url(),
+                TextInput::make('password_manager_credentials_url')
+                    ->columnSpanFull()
+                    ->helperText(
+                        Markdown::inline('The url to the credentials mapped in [Passbolt](https://passbolt.eegatech.it)')
+                    )
+                    ->url(),
+                SpatieTagsInput::make('tags')
+                    ->type('vpc_tags')
+                    ->columnSpanFull(),
             ]);
     }
 
