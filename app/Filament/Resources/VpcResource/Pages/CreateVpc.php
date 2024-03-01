@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateVpc extends CreateRecord
 {
     protected static string $resource = VpcResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
