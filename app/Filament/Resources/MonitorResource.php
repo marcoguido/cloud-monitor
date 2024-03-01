@@ -27,6 +27,32 @@ class MonitorResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('domain_id')
+                    ->columnSpanFull()
+                    ->relationship(name: 'domain', titleAttribute: 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(
+                        fn (Forms\Set $set, $state) => $set(
+                            path: 'ping_endpoint',
+                            state: Domain::find($state)?->url,
+                        ),
+                    ),
+                TextInput::make('ping_endpoint')
+                    ->columnSpanFull()
+                    ->helperText('What url to ping for healthcheck')
+                    ->reactive()
+                    ->url(),
+                Toggle::make('ping_check')
+                    ->label('Healthcheck enabled?')
+                    ->required()
+                    ->default(true),
+                Toggle::make('ssl_check')
+                    ->label('Check SSL certificate?')
+                    ->required()
+                    ->default(true),
             ]);
     }
 
@@ -34,6 +60,15 @@ class MonitorResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('domain.name'),
+                Tables\Columns\IconColumn::make('ping_check')
+                    ->label('Healthcheck enabled?')
+                    ->boolean()
+                    ->alignCenter(),
+                Tables\Columns\IconColumn::make('ssl_check')
+                    ->label('SSL status check')
+                    ->boolean()
+                    ->alignCenter(),
             ])
             ->filters([
                 //
