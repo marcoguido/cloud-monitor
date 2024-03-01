@@ -12,9 +12,11 @@ use Spatie\Sluggable\SlugOptions;
  * App\Models\Monitor
  *
  * @property-read \App\Models\Domain|null $domain
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor query()
+ *
  * @property int $id
  * @property string $slug
  * @property bool $ssl_check
@@ -23,6 +25,7 @@ use Spatie\Sluggable\SlugOptions;
  * @property int $domain_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereDomainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereId($value)
@@ -31,6 +34,7 @@ use Spatie\Sluggable\SlugOptions;
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereSslCheck($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Monitor extends Model
@@ -54,7 +58,7 @@ class Monitor extends Model
     /**
      * Get the options for generating the slug.
      */
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom(

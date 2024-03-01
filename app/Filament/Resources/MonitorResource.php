@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MonitorResource\Pages;
-use App\Filament\Resources\MonitorResource\RelationManagers;
 use App\Models\Domain;
 use App\Models\Monitor;
 use Filament\Forms;
