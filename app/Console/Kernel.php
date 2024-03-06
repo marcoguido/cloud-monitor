@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // Check SSL certificates
-        $schedule->command('monitor:ssl-certificates')->everyMinute();
+        $schedule->command('monitor:ssl-certificates')->everySixHours();
         // Check sites uptime
         $schedule->command('monitor:ping')->everyMinute();
     }
