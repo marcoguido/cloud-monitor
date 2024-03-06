@@ -24,6 +24,8 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->timestamp('last_ssl_check')->nullable();
+            $table->timestamp('last_ping_check')->nullable();
             $table->timestamps();
         });
     }

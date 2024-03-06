@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -39,6 +41,14 @@ use Spatie\Sluggable\SlugOptions;
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereUpdateFrequency($value)
  *
+ * @property \Carbon\CarbonImmutable|null $last_ssl_check
+ * @property \Carbon\CarbonImmutable|null $last_ping_check
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
+ * @property-read int|null $events_count
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereLastPingCheck($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereLastSslCheck($value)
+ *
  * @mixin \Eloquent
  */
 class Monitor extends Model
@@ -53,17 +63,26 @@ class Monitor extends Model
         'ssl_check',
         'ping_check',
         'ping_endpoint',
+        'last_ssl_check',
+        'last_ping_check',
     ];
 
     protected $casts = [
         'update_frequency' => 'int',
         'ssl_check' => 'bool',
         'ping_check' => 'bool',
+        'last_ssl_check' => 'immutable_datetime',
+        'last_ping_check' => 'immutable_datetime',
     ];
 
     public function domain(): BelongsTo
     {
         return $this->belongsTo(Domain::class);
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
     }
 
     /**
@@ -76,5 +95,22 @@ class Monitor extends Model
                 fn () => Domain::find($this->domain_id)->name,
             )
             ->saveSlugsTo('slug');
+    }
+
+    public function sslCheckExpired(): bool
+    {
+        $now = CarbonImmutable::now();
+
+        if (! $this->ssl_check) {
+            return false;
+        }
+
+        if ($this->last_ssl_check === null) {
+            return true;
+        }
+
+        return $this->last_ssl_check
+            ->addMinutes($this->update_frequency)
+            ->isAfter($now);
     }
 }

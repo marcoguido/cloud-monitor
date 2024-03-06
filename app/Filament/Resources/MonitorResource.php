@@ -69,7 +69,7 @@ class MonitorResource extends Resource
                 Tables\Columns\TextColumn::make('update_frequency')
                     ->formatStateUsing(
                         fn (int $state) => sprintf(
-                            'Every %d minutes',
+                            'Every %d minute(s)',
                             $state,
                         ),
                     ),
