@@ -10,6 +10,7 @@ use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Support\Markdown;
 use Filament\Tables;
@@ -55,15 +56,6 @@ class VpcResource extends Resource
                     ->ip(),
                 TextInput::make('private_ip')
                     ->ip(),
-                Toggle::make('is_ssh_enabled')
-                    ->label('SSH Allowed?')
-                    ->required()
-                    ->default(true),
-                TextInput::make('ssh_port')
-                    ->numeric()
-                    ->minValue(0)
-                    ->default(22)
-                    ->requiredIf('is_ssh_enabled', true),
                 TextInput::make('management_url')
                     ->columnSpanFull()
                     ->helperText('Plesk, cPanel or Webmin url (if any)')
@@ -77,6 +69,20 @@ class VpcResource extends Resource
                 SpatieTagsInput::make('tags')
                     ->type('vpc_tags')
                     ->columnSpanFull(),
+                Toggle::make('is_ssh_enabled')
+                    ->label('SSH Allowed?')
+                    ->default(true)
+                    ->live(),
+                TextInput::make('ssh_port')
+                    ->numeric()
+                    ->minValue(0)
+                    ->default(22)
+                    ->required(
+                        fn (Get $get) => $get('is_ssh_enabled'),
+                    )
+                    ->hidden(
+                        fn (Get $get) => ! $get('is_ssh_enabled'),
+                    ),
             ]);
     }
 

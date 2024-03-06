@@ -27,7 +27,6 @@ class MonitorResource extends Resource
         return $form
             ->schema([
                 Select::make('domain_id')
-                    ->columnSpanFull()
                     ->relationship(name: 'domain', titleAttribute: 'name')
                     ->searchable()
                     ->preload()
@@ -39,15 +38,17 @@ class MonitorResource extends Resource
                             state: Domain::find($state)?->url,
                         ),
                     ),
+                Toggle::make('ping_check')
+                    ->label('Healthcheck enabled?')
+                    ->default(true)
+                    ->live(),
                 TextInput::make('ping_endpoint')
                     ->columnSpanFull()
                     ->helperText('What url to ping for healthcheck')
-                    ->reactive()
+                    ->visible(
+                        fn (Forms\Get $get) => $get('ping_check'),
+                    )
                     ->url(),
-                Toggle::make('ping_check')
-                    ->label('Healthcheck enabled?')
-                    ->required()
-                    ->default(true),
                 Toggle::make('ssl_check')
                     ->label('Check SSL certificate?')
                     ->required()

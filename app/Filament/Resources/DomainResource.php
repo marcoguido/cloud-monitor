@@ -11,6 +11,7 @@ use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -44,6 +45,7 @@ class DomainResource extends Resource
                     ->columnSpanFull(),
                 Select::make('application_type')
                     ->options(ApplicationType::descriptionsByValue())
+                    ->live()
                     ->nullable(),
                 SpatieTagsInput::make('application_environment')
                     ->type('application_environments')
@@ -57,7 +59,16 @@ class DomainResource extends Resource
                     ->helperText('The path to the directory being served in remote server for this domain'),
                 TextInput::make('remote_php_path')
                     ->nullable()
-                    ->helperText('The path to the PHP executable running the application (if any)'),
+                    ->helperText('The path to the PHP executable running the application (if any)')
+                    ->visible(
+                        fn (Get $get) => in_array(
+                            needle: $get('application_type'),
+                            haystack: [
+                                ApplicationType::LARAVEL->value,
+                                ApplicationType::PLAIN_PHP->value,
+                            ],
+                        ),
+                    ),
                 Textarea::make('ssh_private_key')
                     ->columnSpanFull()
                     ->nullable()
