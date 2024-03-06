@@ -8,7 +8,7 @@ use App\Actions\Monitor\TrackMonitorLastCheckTimestamps;
 use App\Enum\EventType;
 use App\Models\Monitor;
 use Illuminate\Console\Command;
-use Spatie\SslCertificate\SslCertificate;
+use Spatie\QueueableAction\ActionJob;
 
 class SslCertificateChecker extends Command
 {
@@ -41,25 +41,29 @@ class SslCertificateChecker extends Command
             with: ['domain'],
         );
 
-        $monitors
+        $executionCount = $monitors
             ->filter(
                 fn (Monitor $monitor) => $monitor->sslCheckExpired(),
             )
-            ->each(function (Monitor $monitor) use ($sslDataProcessor, $monitorTimestampsUpdater) {
-                // Determine certificate url
-                $domainUrl = $monitor->domain->url;
-
-                // Process and store certificate analytics
-                $sslDataProcessor(
-                    monitor: $monitor,
-                    certificate: SslCertificate::createForHostName($domainUrl),
-                );
-
-                // Update monitor timestamps after certificate processing
-                $monitorTimestampsUpdater(
-                    monitor: $monitor,
-                    type: EventType::SSL_CHECK,
-                );
-            });
+            ->each(
+                fn (Monitor $monitor) => $sslDataProcessor
+                    ->onQueue()
+                    // Process and store ssl certificate analytics
+                    ->execute(
+                        monitor: $monitor,
+                        certificateUrl: $monitor->domain->url,
+                    )
+                    ->chain([
+                        // Then update monitor timestamps after certificate processing
+                        new ActionJob(
+                            $monitorTimestampsUpdater::class,
+                            [
+                                $monitor,
+                                EventType::SSL_CHECK,
+                            ],
+                        ),
+                    ]),
+            )
+            ->count();
     }
 }

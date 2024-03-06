@@ -5,9 +5,12 @@ namespace App\Actions\Monitor;
 use App\Enum\EventType;
 use App\Models\Monitor;
 use Carbon\CarbonImmutable;
+use Spatie\QueueableAction\QueueableAction;
 
 class TrackMonitorLastCheckTimestamps
 {
+    use QueueableAction;
+
     public function __invoke(Monitor $monitor, EventType $type): void
     {
         $now = CarbonImmutable::now();
