@@ -60,7 +60,6 @@ class SslCertificateChecker extends Command
                             ],
                         ),
                     ]),
-            )
-            ->count();
+            );
     }
 }

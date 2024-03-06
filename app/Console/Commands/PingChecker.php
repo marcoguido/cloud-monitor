@@ -37,7 +37,7 @@ class PingChecker extends Command
     ): void {
         $monitors = $monitorsRetriever(['ping_check' => true]);
 
-        $executionCount = $monitors
+        $monitors
             ->filter(
                 fn (Monitor $monitor) => $monitor->pingCheckExpired(),
             )
@@ -56,7 +56,6 @@ class PingChecker extends Command
                             ],
                         ),
                     ]),
-            )
-            ->count();
+            );
     }
 }
