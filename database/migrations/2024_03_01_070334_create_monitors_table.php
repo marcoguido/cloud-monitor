@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('monitors', function (Blueprint $table) {
             $table->id();
             $table->text('slug');
+            $table->unsignedInteger('update_frequency')->default(5);
             $table->boolean('ssl_check');
             $table->boolean('ping_check')->comment('Whether to perform healthcheck verifications');
             $table->text('ping_endpoint')

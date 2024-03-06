@@ -38,6 +38,11 @@ class MonitorResource extends Resource
                             state: Domain::find($state)?->url,
                         ),
                     ),
+                TextInput::make('update_frequency')
+                    ->helperText('How many minutes should pass between each check lifecycle')
+                    ->default(5)
+                    ->minValue(1)
+                    ->numeric(),
                 Toggle::make('ping_check')
                     ->label('Healthcheck enabled?')
                     ->default(true)
@@ -61,6 +66,13 @@ class MonitorResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('domain.name'),
+                Tables\Columns\TextColumn::make('update_frequency')
+                    ->formatStateUsing(
+                        fn (int $state) => sprintf(
+                            'Every %d minutes',
+                            $state,
+                        ),
+                    ),
                 Tables\Columns\IconColumn::make('ping_check')
                     ->label('Healthcheck enabled?')
                     ->boolean()

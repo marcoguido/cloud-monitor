@@ -35,6 +35,10 @@ use Spatie\Sluggable\SlugOptions;
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereSslCheck($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereUpdatedAt($value)
  *
+ * @property int $update_frequency
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Monitor whereUpdateFrequency($value)
+ *
  * @mixin \Eloquent
  */
 class Monitor extends Model
@@ -45,9 +49,16 @@ class Monitor extends Model
     protected $fillable = [
         'slug',
         'domain_id',
+        'update_frequency',
         'ssl_check',
         'ping_check',
         'ping_endpoint',
+    ];
+
+    protected $casts = [
+        'update_frequency' => 'int',
+        'ssl_check' => 'bool',
+        'ping_check' => 'bool',
     ];
 
     public function domain(): BelongsTo
