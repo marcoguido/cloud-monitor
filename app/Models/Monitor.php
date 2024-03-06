@@ -111,6 +111,6 @@ class Monitor extends Model
 
         return $this->last_ssl_check
             ->addMinutes($this->update_frequency)
-            ->isAfter($now);
+            ->isBefore($now);
     }
 }
