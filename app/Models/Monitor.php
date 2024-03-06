@@ -97,6 +97,23 @@ class Monitor extends Model
             ->saveSlugsTo('slug');
     }
 
+    public function pingCheckExpired(): bool
+    {
+        $now = CarbonImmutable::now();
+
+        if (! $this->ping_check) {
+            return false;
+        }
+
+        if ($this->last_ping_check === null) {
+            return true;
+        }
+
+        return $this->last_ping_check
+            ->addMinutes($this->update_frequency)
+            ->isBefore($now);
+    }
+
     public function sslCheckExpired(): bool
     {
         $now = CarbonImmutable::now();

@@ -37,7 +37,13 @@ class EventPayload implements CastsAttributes
         }
 
         if ($model->type->is(EventType::PING)) {
-            return new PingData();
+            return new PingData(
+                $payloadData->endpoint,
+                $payloadData->request_method,
+                $payloadData->response_http_code,
+                $payloadData->headers,
+                $payloadData->body,
+            );
         }
     }
 
