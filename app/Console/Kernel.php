@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
     {
         // Check SSL certificates
         $schedule->command('monitor:ssl-certificates')->everyMinute();
+        // Check sites uptime
+        $schedule->command('monitor:ping')->everyMinute();
     }
 
     /**
