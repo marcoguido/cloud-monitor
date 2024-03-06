@@ -11,6 +11,11 @@ services:
         env_file:
             - ../.env
 
+    queue:
+        container_name: infrastructure_monitor_queue
+        env_file:
+            - ../.env
+
     pgsql:
         container_name: infrastructure_monitor_db
         env_file:

@@ -15,7 +15,7 @@ services:
         environment:
             APACHE_DOCUMENT_ROOT: '/var/www/html/public'
             PHP_DATE_TIMEZONE: 'Europe/Rome'
-            PHP_POOL_NAME: "laravel_php"
+            PHP_POOL_NAME: "monitoring_php"
             SSL_MODE: off
             WEBUSER_HOME: '/var/www/html'
         volumes:
@@ -27,10 +27,29 @@ services:
             - mailpit
 
     cron:
-        image: serversideup/php:8.2-cli
+        build:
+            context: .
+            dockerfile: build/cli/local.Dockerfile
         command: [ "su", "webuser", "-c", "cd /var/www/html && php artisan schedule:work" ]
         environment:
-            PHP_POOL_NAME: "laravel_cron"
+            AUTORUN_ENABLED: false
+            PHP_POOL_NAME: "monitoring_cron"
+        volumes:
+            - '../:/var/www/html'
+        restart: always
+        networks:
+            - infrastructure_monitor
+        depends_on:
+            - pgsql
+
+    queue:
+        build:
+            context: .
+            dockerfile: build/cli/local.Dockerfile
+        command: [ "su", "webuser", "-c", "cd /var/www/html && php artisan queue:work --sleep=3 --tries=3" ]
+        environment:
+            AUTORUN_ENABLED: false
+            PHP_POOL_NAME: "monitoring_queue"
         volumes:
             - '../:/var/www/html'
         restart: always
