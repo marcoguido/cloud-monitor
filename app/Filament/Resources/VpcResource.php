@@ -24,6 +24,8 @@ class VpcResource extends Resource
 
     protected static ?string $modelLabel = 'VPC';
 
+    protected static ?string $pluralModelLabel = 'VPCs';
+
     protected static ?string $navigationIcon = 'heroicon-o-server-stack';
 
     protected static ?int $navigationSort = 2;
