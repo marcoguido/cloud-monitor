@@ -113,21 +113,4 @@ class Monitor extends Model
             ->addMinutes($this->update_frequency)
             ->isBefore($now);
     }
-
-    public function sslCheckExpired(): bool
-    {
-        $now = CarbonImmutable::now();
-
-        if (! $this->ssl_check) {
-            return false;
-        }
-
-        if ($this->last_ssl_check === null) {
-            return true;
-        }
-
-        return $this->last_ssl_check
-            ->addMinutes($this->update_frequency)
-            ->isBefore($now);
-    }
 }

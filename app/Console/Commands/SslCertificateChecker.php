@@ -41,10 +41,7 @@ class SslCertificateChecker extends Command
             with: ['domain'],
         );
 
-        $executionCount = $monitors
-            ->filter(
-                fn (Monitor $monitor) => $monitor->sslCheckExpired(),
-            )
+        $monitors
             ->each(
                 fn (Monitor $monitor) => $sslDataProcessor
                     ->onQueue()
