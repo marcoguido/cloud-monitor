@@ -62,6 +62,7 @@ class DomainResource extends Resource
                     ->columnSpanFull()
                     ->nullable()
                     ->placeholder('May start with -----BEGIN OPENSSH PRIVATE KEY-----')
+                    ->hiddenOn('edit')
                     ->helperText('The private key (without any passphrase) to be used to connect to remote server'),
                 Select::make('dns_provider_id')
                     ->label('DNS Provider')

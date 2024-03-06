@@ -76,6 +76,7 @@ class Domain extends Model
     protected $casts = [
         'domain_type' => DomainType::class,
         'application_type' => ApplicationType::class,
+        'ssh_private_key' => 'encrypted',
     ];
 
     public function provider(): BelongsTo
